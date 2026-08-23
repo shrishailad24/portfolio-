@@ -53,20 +53,17 @@ export default function TiltCard({ children, className = "", style = {} }) {
         {children}
       </div>
 
-      {/* Holographic 5D Iridescent Specular Glare */}
+      {/* Holographic 5D Iridescent Specular Glare Overlay */}
       <div
         className="tilt-glare"
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          inset: "0px",
           borderRadius: "16px",
           pointerEvents: "none",
           zIndex: 10,
           background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(255, 255, 255, ${glarePos.opacity}) 0%, rgba(58, 120, 255, 0.15) 35%, transparent 70%)`,
-          transition: "opacity 0.25s ease"
+          transition: "opacity 0.25s"
         }}
       />
     </div>
