@@ -2852,6 +2852,7 @@ section {
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 100%;
 }
 
 .exact-backplate-box {
@@ -2860,20 +2861,21 @@ section {
   max-width: 480px;
   min-height: 480px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
+  margin: 0 auto;
 }
 
 /* LUMINOUS LIGHT GEOID EARTH-MOON ORBITAL SVG */
 .geoid-orbit-svg {
   position: absolute;
-  top: -35px;
-  left: -40px;
-  right: -40px;
-  bottom: -35px;
-  width: calc(100% + 80px);
-  height: calc(100% + 70px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: 480px;
   pointer-events: none;
   z-index: 1;
   overflow: visible;
@@ -2882,16 +2884,17 @@ section {
 }
 
 @keyframes gentleOrbitRotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 /* HERO CARDS STACK WRAPPER (EXACT MATCH TO REFERENCE SCREENSHOT) */
 .hero-cards-wrapper {
   position: relative;
   width: 90%;
-  max-width: 420px;
+  max-width: 400px;
   margin: 0 auto;
+  z-index: 3;
 }
 
 /* BEHIND DARK BACKPLATE CARD LAYER */
@@ -3481,6 +3484,11 @@ section {
     min-height: 350px !important;
     margin: 0 auto !important;
     padding: 16px !important;
+  }
+
+  .geoid-orbit-svg {
+    width: 360px !important;
+    height: 360px !important;
   }
 
   .hero-cards-wrapper {
