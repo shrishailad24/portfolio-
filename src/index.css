@@ -3565,3 +3565,132 @@ body {
     font-size: 1.6rem !important;
   }
 }
+
+/* ==========================================================================
+   CASE STUDY MODAL & INTERACTIVE DIAGRAMS MOBILE RESPONSIVENESS (320px - 768px)
+   ========================================================================== */
+
+.aegis-modal-header-left, .aegis-modal-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.case-study-hdr-btn {
+  font-size: 0.75rem;
+  padding: 0.35rem 0.75rem;
+}
+
+@media (max-width: 768px) {
+  /* Case Study Header Bar */
+  .aegis-modal-header {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+    padding: 0.85rem 1rem !important;
+  }
+
+  .aegis-modal-header-left, .aegis-modal-header-right {
+    width: 100% !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+
+  .btn-back-portfolio {
+    font-size: 0.72rem !important;
+    padding: 0.35rem 0.65rem !important;
+  }
+
+  /* Case Study Hero Banners & Cards */
+  .flagship-hero-banner, 
+  .case-study-hero-card, 
+  .tab-content-panel, 
+  .min-section, 
+  .stepper-box, 
+  .arch-diagram-box, 
+  .simulator-box,
+  .aegis-modal-body {
+    padding: 1.25rem !important;
+    border-radius: 12px !important;
+  }
+
+  .flagship-title {
+    font-size: clamp(2rem, 8vw, 3.2rem) !important;
+  }
+
+  .flagship-tagline {
+    font-size: 0.95rem !important;
+  }
+
+  .case-study-grid, .sim-body, .simulator-body, .arch-flow-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* Architecture & Flow Diagrams Vertical Stack */
+  .min-flow-bar, .min-land-pipeline, .stepper-flow-visual {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    overflow-x: visible !important;
+    gap: 0.5rem !important;
+  }
+
+  .min-flow-node, .min-land-step, .flow-step-chip {
+    width: 100% !important;
+    min-width: 0 !important;
+    white-space: normal !important;
+    text-align: left !important;
+  }
+
+  .min-flow-arrow, .min-land-arrow {
+    transform: rotate(90deg) !important;
+    align-self: center !important;
+    margin: 0.2rem 0 !important;
+  }
+
+  /* Stepper 6 Steps Grid on Mobile */
+  .stepper-pills-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+
+  .step-pill {
+    padding: 0.5rem 0.3rem !important;
+  }
+
+  .step-title {
+    white-space: normal !important;
+    font-size: 0.68rem !important;
+    word-break: break-word !important;
+  }
+
+  /* Architecture Sub-Grid */
+  .arch-sub-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Aegis Risk Simulator Controls */
+  .sim-field input[type="range"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .sim-res-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.25rem !important;
+  }
+
+  /* Ensure text wrapping for long titles & paragraphs */
+  .min-hero-desc, .case-study-block p, .flagship-desc {
+    word-break: break-word !important;
+  }
+}
+
+@media (max-width: 412px) {
+  .stepper-pills-row {
+    grid-template-columns: 1fr !important;
+  }
+}

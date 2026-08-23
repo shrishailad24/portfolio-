@@ -86,22 +86,22 @@ export default function AegisCRCaseStudyModal({ isOpen, onClose }) {
       <div className="aegis-modal-container">
         {/* Sticky Header Bar */}
         <div className="aegis-modal-header">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div className="aegis-modal-header-left">
             <button onClick={onClose} className="btn-back-portfolio">
               <ArrowLeft size={16} /> Back to Portfolio
             </button>
             <span className="min-tag highlight-orange" style={{ margin: 0 }}>AEGISCR DEEP-DIVE CASE STUDY</span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <a href="https://aegiscr-5.onrender.com" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: '0.75rem', padding: '0.35rem 0.75rem' }}>
+          <div className="aegis-modal-header-right">
+            <a href="https://aegiscr-5.onrender.com" target="_blank" rel="noopener noreferrer" className="btn-outline case-study-hdr-btn">
               Live Demo <ArrowUpRight size={14} />
             </a>
-            <a href="https://github.com/shrishailad24/AegisCR" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: '0.75rem', padding: '0.35rem 0.75rem' }}>
+            <a href="https://github.com/shrishailad24/AegisCR" target="_blank" rel="noopener noreferrer" className="btn-outline case-study-hdr-btn">
               GitHub <GithubIcon size={14} />
             </a>
             <button onClick={onClose} className="aegis-close-btn" aria-label="Close Case Study">
-              <X size={20} />
+              <X size={18} />
             </button>
           </div>
         </div>
