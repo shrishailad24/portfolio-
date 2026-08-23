@@ -2889,16 +2889,16 @@ section {
 /* BEHIND DARK BACKPLATE CARD LAYER (DISTINCT SECOND CARD) */
 .backplate-dark-layer {
   position: absolute;
-  top: 10px;
-  bottom: -20px;
-  left: 30px;
-  right: -25px;
+  top: 8px;
+  bottom: -8px;
+  left: 16px;
+  right: -10px;
   background: #0D1627;
   border: 1.5px solid rgba(58, 120, 255, 0.35);
-  border-radius: 12px;
-  transform: rotate(5deg);
+  border-radius: 10px;
+  transform: rotate(3deg);
   z-index: 2;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
 }
 
 /* FRONT TILTED PROFILE PHOTO CARD LAYER (FIRST CARD) */
@@ -3409,10 +3409,10 @@ section {
 
   .backplate-dark-layer {
     top: 5px !important;
-    bottom: -18px !important;
-    left: 22px !important;
-    right: -20px !important;
-    transform: rotate(5deg) !important;
+    bottom: -6px !important;
+    left: 12px !important;
+    right: -8px !important;
+    transform: rotate(3deg) !important;
     display: block !important;
   }
 
@@ -3539,10 +3539,10 @@ body {
 
   .backplate-dark-layer {
     top: 4px !important;
-    bottom: -15px !important;
-    left: 18px !important;
-    right: -16px !important;
-    transform: rotate(5deg) !important;
+    bottom: -5px !important;
+    left: 10px !important;
+    right: -6px !important;
+    transform: rotate(2.5deg) !important;
   }
 
   .exact-profile-img {
