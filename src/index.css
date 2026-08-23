@@ -3498,7 +3498,7 @@ section {
   /* Floating Ask Shrishail AI Assistant Drawer */
   .ai-chat-trigger {
     right: 1rem !important;
-    bottom: 1rem !important;
+    bottom: 1.25rem !important;
     padding: 0.65rem 1rem !important;
     font-size: 0.78rem !important;
   }
@@ -3506,9 +3506,9 @@ section {
   .ai-chat-modal {
     right: 0.5rem !important;
     left: 0.5rem !important;
-    bottom: 4.25rem !important;
+    bottom: 4.5rem !important;
     width: calc(100vw - 1rem) !important;
-    height: calc(100vh - 5.5rem) !important;
+    height: calc(100dvh - 6rem) !important;
     max-height: 540px !important;
   }
 
@@ -3517,5 +3517,51 @@ section {
     padding: 1.25rem !important;
     max-width: 100% !important;
     overflow-x: auto !important;
+  }
+}
+
+/* ==========================================================================
+   ANDROID MOBILE SPECIFIC OPTIMIZATIONS (320px - 412px Android Viewports)
+   ========================================================================== */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 412px) {
+  /* Extra Android Small Viewport Tuning (e.g. Galaxy A-series, Redmi, Pixel) */
+  .container {
+    padding: 0 1rem !important;
+  }
+
+  .exact-hero-heading {
+    font-size: clamp(2.1rem, 9vw, 3rem) !important;
+  }
+
+  .exact-backplate-box {
+    max-width: 275px !important;
+    min-height: 275px !important;
+  }
+
+  .glowing-orbit-ring.blue-orbit, .glowing-orbit-ring.orange-orbit {
+    width: 245px !important;
+    height: 245px !important;
+  }
+
+  .btn-explore-work, .btn-download-resume {
+    font-size: 0.76rem !important;
+    padding: 0.8rem 1rem !important;
+  }
+
+  .min-section-head h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .contact-title {
+    font-size: 1.6rem !important;
   }
 }
