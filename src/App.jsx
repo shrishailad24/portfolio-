@@ -68,7 +68,7 @@ export default function App() {
         <div className="container nav-container">
           <a href="#hero" className="brand-logo" onClick={closeMobileMenu}>
             <span className="brand-badge">SH</span>
-            <span className="brand-title">AI + DATA SCIENCE</span>
+            <span className="brand-title">AI + DATA</span>
           </a>
 
           {/* Desktop Nav Links */}
