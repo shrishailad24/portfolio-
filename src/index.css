@@ -3317,3 +3317,205 @@ section {
 .ai-chat-input-row textarea:focus {
   border-color: var(--accent-blue);
 }
+
+/* ==========================================================================
+   COMPREHENSIVE MOBILE RESPONSIVENESS (360px - 768px Viewports)
+   ========================================================================== */
+
+.mobile-hamburger-btn {
+  display: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: #FFF;
+  padding: 0.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  /* Prevent horizontal scrolling & force box-sizing */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .container {
+    padding: 0 1.25rem !important;
+  }
+
+  /* Navigation Bar */
+  .desktop-nav-links {
+    display: none !important;
+  }
+
+  .mobile-hamburger-btn {
+    display: flex !important;
+  }
+
+  .mobile-menu-overlay {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(11, 20, 36, 0.98);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1.5rem 1.25rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.9);
+    animation: fadeInDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mobile-menu-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .mobile-menu-links a {
+    color: #F1F5F9;
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    display: block;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Hero Section Single-Column Stack */
+  .exact-hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+    text-align: left;
+  }
+
+  .exact-hero-heading {
+    font-size: clamp(2.5rem, 9.5vw, 3.6rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .exact-hero-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.55 !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .exact-hero-buttons {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+    width: 100%;
+  }
+
+  .btn-explore-work, .btn-download-resume {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 0.9rem 1.2rem !important;
+  }
+
+  .exact-hero-right {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .exact-backplate-box {
+    max-width: 320px !important;
+    min-height: 320px !important;
+    margin: 0 auto !important;
+    padding: 12px !important;
+  }
+
+  .glowing-orbit-ring.blue-orbit, .glowing-orbit-ring.orange-orbit {
+    width: 290px !important;
+    height: 290px !important;
+  }
+
+  /* Grids to Single Column */
+  .min-grid-3col, 
+  .min-grid-2col, 
+  .skills-grid, 
+  .projects-grid, 
+  .min-fraud-grid, 
+  .min-products-grid, 
+  .min-roles-grid, 
+  .min-metrics-grid, 
+  .min-preview-grid,
+  .featured-project-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* Industry Experience Single Column Timeline */
+  .exp-item {
+    grid-template-columns: 1fr !important;
+    gap: 0.35rem !important;
+    padding: 1.5rem 0 !important;
+  }
+
+  .exp-date {
+    font-size: 0.78rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .exp-role {
+    font-size: 1.2rem !important;
+  }
+
+  /* Skill Evidence Matrix Single Column */
+  .matrix-grid, .skill-matrix-container {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* Secondary & Shrishail Labs Cards */
+  .min-info-card, .skill-category-card, .challenge-card {
+    padding: 1.25rem !important;
+  }
+
+  /* Contact Chips Stack */
+  .contact-links-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.75rem !important;
+  }
+
+  .contact-chip {
+    width: 100% !important;
+    justify-content: flex-start !important;
+    word-break: break-all !important;
+    padding: 0.85rem 1rem !important;
+  }
+
+  /* Floating Ask Shrishail AI Assistant Drawer */
+  .ai-chat-trigger {
+    right: 1rem !important;
+    bottom: 1rem !important;
+    padding: 0.65rem 1rem !important;
+    font-size: 0.78rem !important;
+  }
+
+  .ai-chat-modal {
+    right: 0.5rem !important;
+    left: 0.5rem !important;
+    bottom: 4.25rem !important;
+    width: calc(100vw - 1rem) !important;
+    height: calc(100vh - 5.5rem) !important;
+    max-height: 540px !important;
+  }
+
+  /* Developer CLI Terminal Box */
+  .terminal-box, .contact-card {
+    padding: 1.25rem !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+  }
+}

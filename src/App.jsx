@@ -7,6 +7,7 @@ import {
   Phone, 
   ExternalLink, 
   X, 
+  Menu,
   Printer, 
   Sparkles, 
   Code2, 
@@ -53,6 +54,9 @@ const LinkedinIcon = ({ size = 20, className = "" }) => (
 export default function App() {
   const [recruiterMode, setRecruiterMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <div className={`portfolio-app ${recruiterMode ? 'recruiter-mode-active' : ''}`}>
@@ -62,12 +66,13 @@ export default function App() {
       {/* Sticky Navigation Bar */}
       <nav className="navbar">
         <div className="container nav-container">
-          <a href="#hero" className="brand-logo">
+          <a href="#hero" className="brand-logo" onClick={closeMobileMenu}>
             <span className="brand-badge">SH</span>
             <span className="brand-title">AI + DATA SCIENCE</span>
           </a>
 
-          <ul className="nav-links">
+          {/* Desktop Nav Links */}
+          <ul className="nav-links desktop-nav-links">
             <li><a href="#about" className="nav-link">About</a></li>
             <li><a href="#featured-work" className="nav-link">Projects</a></li>
             <li><a href="#experience" className="nav-link">Experience</a></li>
@@ -97,13 +102,58 @@ export default function App() {
               </a>
             </li>
           </ul>
+
+          {/* Mobile Hamburger Toggle Button */}
+          <button 
+            className="mobile-hamburger-btn" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Mobile Menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+
+        {/* Mobile Dropdown Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div className="mobile-menu-overlay">
+            <ul className="mobile-menu-links">
+              <li><a href="#about" onClick={closeMobileMenu}>About</a></li>
+              <li><a href="#featured-work" onClick={closeMobileMenu}>Projects</a></li>
+              <li><a href="#experience" onClick={closeMobileMenu}>Experience</a></li>
+              <li><a href="#skills" onClick={closeMobileMenu}>Skills</a></li>
+              <li><a href="#contact" onClick={closeMobileMenu}>Contact</a></li>
+              <li>
+                <button 
+                  onClick={() => { setRecruiterMode(!recruiterMode); closeMobileMenu(); }}
+                  className={`recruiter-toggle-btn ${recruiterMode ? 'active' : ''}`}
+                  style={{ width: '100%', justifyContent: 'center' }}
+                >
+                  <Briefcase size={14} />
+                  <span>{recruiterMode ? 'RECRUITER MODE ON' : 'Recruiter Mode'}</span>
+                </button>
+              </li>
+              <li>
+                <a 
+                  href="/Shrishail_Hebballi_Resume.pdf" 
+                  download="Shrishail_Hebballi_Resume.pdf" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="nav-btn-resume"
+                  style={{ width: '100%', display: 'block', textAlign: 'center' }}
+                  onClick={closeMobileMenu}
+                >
+                  Resume ↗
+                </a>
+              </li>
+            </ul>
+          </div>
+        )}
       </nav>
 
       {/* RECRUITER STREAMLINED BANNER */}
       {recruiterMode && (
         <div className="recruiter-banner">
-          <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
             <span>⚡ RECRUITER MODE ACTIVE: Streamlined 60-Second Executive View</span>
             <button onClick={() => setRecruiterMode(false)} style={{ background: 'none', border: 'none', color: '#FFF', textDecoration: 'underline', cursor: 'pointer', fontFamily: 'var(--font-mono)' }}>
               Switch to Full Interactive View
@@ -132,7 +182,7 @@ export default function App() {
               I'm a data-focused AI developer building practical systems that connect models, data, APIs, and real-world workflows.
             </p>
 
-            <div className="min-grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+            <div className="min-grid-3col">
               <div className="min-info-card">
                 <strong className="mono highlight-orange" style={{ fontSize: '0.85rem', display: 'block', marginBottom: '0.3rem' }}>
                   AI / ML
@@ -189,7 +239,7 @@ export default function App() {
             <div className="experience-list">
               <div className="exp-item">
                 <div className="exp-date">JULY 2026 – PRESENT</div>
-                <div>
+                <div className="exp-content">
                   <h3 className="exp-role">AI/ML Internship Trainee</h3>
                   <div className="exp-company">FlyRank AI · Virtual Trainee</div>
                   <ul className="pdf-bullets" style={{ marginTop: '0.5rem', fontSize: '0.88rem' }}>
@@ -201,7 +251,7 @@ export default function App() {
 
               <div className="exp-item">
                 <div className="exp-date">JUNE – JULY 2026</div>
-                <div>
+                <div className="exp-content">
                   <h3 className="exp-role">Data Science & Analytics Intern</h3>
                   <div className="exp-company">Future Interns · Summer Intern</div>
                   <ul className="pdf-bullets" style={{ marginTop: '0.5rem', fontSize: '0.88rem' }}>
@@ -224,7 +274,7 @@ export default function App() {
             <p className="min-subtext">Three engineering pillars of my practical AI work.</p>
           </div>
 
-          <div className="min-grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
+          <div className="min-grid-3col">
             <div className="min-info-card">
               <strong className="mono highlight-orange" style={{ fontSize: '0.9rem', display: 'block', marginBottom: '0.5rem' }}>
                 AI & ML
@@ -331,7 +381,7 @@ export default function App() {
               <h2>Technical Capabilities</h2>
             </div>
 
-            <div className="skills-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
+            <div className="skills-grid">
               <div className="skill-category-card">
                 <h3 className="skill-cat-title mono highlight-orange" style={{ fontSize: '0.85rem' }}>PROGRAMMING</h3>
                 <div className="skill-pill-list" style={{ marginTop: '0.6rem' }}>
@@ -402,7 +452,7 @@ export default function App() {
       {!recruiterMode && (
         <section id="terminal" style={{ marginTop: '2.5rem' }}>
           <div className="container">
-            <div className="contact-card" style={{ textAlign: 'left', padding: '3rem' }}>
+            <div className="contact-card" style={{ textAlign: 'left', padding: '2rem' }}>
               <div className="section-tag">10 / DEVELOPER CLI</div>
               <h3 style={{ fontSize: '1.6rem', color: '#FFF' }}>Interactive Terminal</h3>
               <p style={{ color: 'var(--text-secondary)', marginTop: '0.4rem', fontSize: '0.9rem' }}>
@@ -418,10 +468,10 @@ export default function App() {
       {/* 11. ONE-PAGE EXECUTIVE RESUME CTA */}
       <section id="resume-cta" style={{ marginTop: '2.5rem' }}>
         <div className="container">
-          <div className="min-info-card" style={{ textAlign: 'center', padding: '3rem 2rem', background: '#090E17' }}>
+          <div className="min-info-card" style={{ textAlign: 'center', padding: '3rem 1.5rem', background: '#090E17' }}>
             <span className="min-tag">11 / EXECUTIVE RESUME</span>
-            <h2 style={{ fontSize: '2.2rem', color: '#FFF', margin: '0.5rem 0' }}>Want the one-page version?</h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '1.5rem' }}>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', color: '#FFF', margin: '0.5rem 0' }}>Want the one-page version?</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
               Download the complete single-page PDF resume with full academic credentials and project summaries.
             </p>
 
@@ -444,7 +494,7 @@ export default function App() {
         <div className="container">
           <div className="contact-card">
             <div className="section-tag">12 / GET IN TOUCH</div>
-            <h2 className="contact-title">Let's build something useful with AI.</h2>
+            <h2 className="contact-title" style={{ fontSize: 'clamp(1.8rem, 6vw, 2.8rem)' }}>Let's build something useful with AI.</h2>
             <p className="contact-subtitle">
               Open to AI/ML engineering roles, data science opportunities, and software collaborations.
             </p>
@@ -495,7 +545,7 @@ export default function App() {
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
             <p>© {new Date().getFullYear()} Shrishail Mallappa Hebballi · AI & Data Science Engineer.</p>
-            <div className="mono" style={{ fontSize: '0.75rem', display: 'flex', gap: '1rem' }}>
+            <div className="mono" style={{ fontSize: '0.75rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <a href="https://github.com/shrishailad24" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-blue)' }}>GitHub</a>
               <a href="https://www.linkedin.com/in/shrishail-mallappa-hebballi-b33b19375" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-blue)' }}>LinkedIn</a>
               <a href="/Shrishail_Hebballi_Resume.pdf" download="Shrishail_Hebballi_Resume.pdf" style={{ color: 'var(--accent-orange)' }}>Resume PDF</a>
