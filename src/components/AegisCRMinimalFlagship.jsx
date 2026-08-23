@@ -98,11 +98,14 @@ export function HeroSection({ onOpenCaseStudy }) {
                 </defs>
               </svg>
 
-              {/* Behind Dark Backplate Layer */}
-              <div className="backplate-dark-layer"></div>
+              {/* Hero Cards Wrapper (Enforces 100% Identical Card Sizing) */}
+              <div className="hero-cards-wrapper">
+                {/* Behind Dark Backplate Layer (Exact Twin Card Size) */}
+                <div className="backplate-dark-layer"></div>
 
-              {/* Tilted Artwork Photo */}
-              <img src="/profile.jpg" alt="Shrishail Hebballi Profile" className="exact-profile-img" />
+                {/* Tilted Artwork Photo (Front Twin Card) */}
+                <img src="/profile.jpg" alt="Shrishail Hebballi Profile" className="exact-profile-img" />
+              </div>
             </div>
           </TiltCard>
         </div>
