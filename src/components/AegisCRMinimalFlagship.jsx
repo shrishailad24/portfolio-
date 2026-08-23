@@ -67,11 +67,36 @@ export function HeroSection({ onOpenCaseStudy }) {
         <div className="exact-hero-right">
           <TiltCard>
             <div className="exact-backplate-box">
-              {/* Glowing Neon Orbit Rings */}
-              <div className="glowing-orbit-ring blue-orbit"></div>
-              <div className="glowing-orbit-ring orange-orbit"></div>
-              <div className="orbit-node blue-node"></div>
-              <div className="orbit-node orange-node"></div>
+              {/* Luminous Light Geoid Earth-Moon Orbital System SVG */}
+              <svg className="geoid-orbit-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Light Geoid Elliptical Orbit Rings */}
+                <ellipse cx="250" cy="250" rx="215" ry="145" transform="rotate(-25 250 250)" stroke="url(#blueOrbitGrad)" strokeWidth="1.8" strokeDasharray="8 5" opacity="0.9" />
+                <ellipse cx="250" cy="250" rx="235" ry="165" transform="rotate(32 250 250)" stroke="url(#orangeOrbitGrad)" strokeWidth="1.8" opacity="0.9" />
+                <circle cx="250" cy="250" r="225" stroke="rgba(58, 120, 255, 0.45)" strokeWidth="1.2" strokeDasharray="4 6" />
+
+                {/* Orbiting Celestial Moon & Satellite Nodes */}
+                <circle cx="65" cy="205" r="6" fill="#00F0FF" />
+                <circle cx="65" cy="205" r="10" fill="rgba(0, 240, 255, 0.3)" />
+
+                <circle cx="435" cy="285" r="6" fill="#FF5533" />
+                <circle cx="435" cy="285" r="10" fill="rgba(255, 85, 51, 0.3)" />
+
+                <circle cx="345" cy="85" r="4.5" fill="#38BDF8" />
+
+                {/* SVG Gradient Definitions */}
+                <defs>
+                  <linearGradient id="blueOrbitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#00F0FF" stopOpacity="1" />
+                    <stop offset="60%" stopColor="#3B82F6" stopOpacity="0.75" />
+                    <stop offset="100%" stopColor="#00F0FF" stopOpacity="0.2" />
+                  </linearGradient>
+                  <linearGradient id="orangeOrbitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FF5533" stopOpacity="1" />
+                    <stop offset="60%" stopColor="#FF7755" stopOpacity="0.75" />
+                    <stop offset="100%" stopColor="#FF5533" stopOpacity="0.2" />
+                  </linearGradient>
+                </defs>
+              </svg>
 
               {/* Behind Dark Backplate Layer */}
               <div className="backplate-dark-layer"></div>

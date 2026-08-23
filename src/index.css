@@ -2865,55 +2865,25 @@ section {
   padding: 24px;
 }
 
-/* SUBTLE ELEGANT ORBIT RINGS */
-.glowing-orbit-ring {
+/* LUMINOUS LIGHT GEOID EARTH-MOON ORBITAL SVG */
+.geoid-orbit-svg {
   position: absolute;
-  border-radius: 50%;
+  top: -35px;
+  left: -40px;
+  right: -40px;
+  bottom: -35px;
+  width: calc(100% + 80px);
+  height: calc(100% + 70px);
   pointer-events: none;
   z-index: 1;
+  overflow: visible;
+  filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.4));
+  animation: gentleOrbitRotate 50s linear infinite;
 }
 
-.glowing-orbit-ring.blue-orbit {
-  width: 460px;
-  height: 460px;
-  bottom: -40px;
-  left: -50px;
-  border: 1.8px solid #00F0FF;
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.6), inset 0 0 15px rgba(0, 240, 255, 0.3);
-  clip-path: polygon(0 35%, 100% 100%, 0 100%);
-}
-
-.glowing-orbit-ring.orange-orbit {
-  width: 460px;
-  height: 460px;
-  top: -40px;
-  right: -50px;
-  border: 1.8px solid #FF5533;
-  box-shadow: 0 0 20px rgba(255, 85, 51, 0.6), inset 0 0 15px rgba(255, 85, 51, 0.3);
-  clip-path: polygon(0 0, 100% 0, 100% 65%);
-}
-
-/* ORBIT GLOW NODES */
-.orbit-node {
-  position: absolute;
-  width: 9px;
-  height: 9px;
-  background: #FFFFFF;
-  border-radius: 50%;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.orbit-node.blue-node {
-  bottom: 110px;
-  left: -32px;
-  box-shadow: 0 0 12px 4px #00F0FF, 0 0 24px 8px rgba(0, 240, 255, 0.8);
-}
-
-.orbit-node.orange-node {
-  top: 190px;
-  right: -35px;
-  box-shadow: 0 0 12px 4px #FF5533, 0 0 24px 8px rgba(255, 85, 51, 0.8);
+@keyframes gentleOrbitRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* BEHIND DARK BACKPLATE CARD LAYER (DISTINCT SECOND CARD) */
