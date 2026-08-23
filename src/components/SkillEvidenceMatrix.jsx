@@ -36,7 +36,7 @@ export default function SkillEvidenceMatrix() {
       projects: [
         { name: "Shrishail OS Portfolio", role: "Built interactive AI personal operating system with 3D tilt & terminal CLI" },
         { name: "AAROHA UI", role: "Designed modular UI state screens for decision engine" },
-        { name: "ApexPlanet Internship", role: "Developed modular React UI components during summer internship" }
+        { name: "Future Interns Internship", role: "Developed data analytics and EDA dashboards" }
       ]
     },
     sql: {
