@@ -50,7 +50,7 @@ TECHNICAL CAPABILITIES:
 - Developer Tools: Git, GitHub, VS Code, Render
 
 CONTACT & RESUME:
-- Emails: shrishail.ad24@bmsce.ac.in | shrishailmhebballi@gmail.com
+- Email: shrishailmhebballi@gmail.com
 - LinkedIn: https://www.linkedin.com/in/shrishail-mallappa-hebballi-b33b19375
 - GitHub: https://github.com/shrishailad24
 - Resume PDF: Available directly on the portfolio website for download.

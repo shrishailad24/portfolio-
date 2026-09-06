@@ -500,13 +500,8 @@ export default function App() {
             </p>
 
             <div className="contact-links-grid">
-              <a href="mailto:shrishail.ad24@bmsce.ac.in" className="contact-chip">
-                <Mail size={16} className="highlight-orange" />
-                shrishail.ad24@bmsce.ac.in
-              </a>
-
               <a href="mailto:shrishailmhebballi@gmail.com" className="contact-chip">
-                <Mail size={16} className="highlight-blue" />
+                <Mail size={16} className="highlight-orange" />
                 shrishailmhebballi@gmail.com
               </a>
 
