@@ -57,20 +57,55 @@ BEHAVIORAL DIRECTIVES:
 3. If asked an off-topic or unrelated question (e.g., weather, general trivia, politics), give a brief polite response and naturally guide the user back to Shrishail's AI engineering portfolio, projects like AegisCR or AAROHA, or hiring information.
 4. Format your responses with clean Markdown (bullet points, bold text, code tags) for easy reading.`;
 
+async function parseBody(req) {
+  if (req.body) {
+    if (typeof req.body === 'object') return req.body;
+    try {
+      return JSON.parse(req.body);
+    } catch {
+      return {};
+    }
+  }
+
+  return new Promise((resolve) => {
+    let data = '';
+    req.on('data', chunk => { data += chunk; });
+    req.on('end', () => {
+      try {
+        resolve(data ? JSON.parse(data) : {});
+      } catch {
+        resolve({});
+      }
+    });
+    req.on('error', () => resolve({}));
+  });
+}
+
 export default async function handler(req, res) {
+  // CORS & method verification
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-    const { messages } = body || {};
-    const apiKey = process.env.GROQ_API_KEY;
-    const model = process.env.GROQ_MODEL || 'groq/compound';
+    const rawKey = process.env.GROQ_API_KEY || process.env.GROQ_KEY || process.env.GROQ_API_TOKEN;
+    const apiKey = rawKey ? rawKey.trim().replace(/^["']|["']$/g, '') : null;
+    const model = (process.env.GROQ_MODEL || 'groq/compound').trim().replace(/^["']|["']$/g, '');
 
     if (!apiKey) {
       return res.status(500).json({ error: 'GROQ_API_KEY environment variable is not configured on Vercel.' });
     }
+
+    const body = await parseBody(req);
+    const { messages } = body || {};
 
     const formattedMessages = [
       { role: 'system', content: systemPrompt },
@@ -99,15 +134,15 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('Groq API Error on Vercel:', data);
-      return res.status(response.status).json({ error: data.error?.message || 'Groq API error' });
+      console.error('Groq API Error on Vercel status:', response.status);
+      return res.status(response.status).json({ error: data.error?.message || `Groq API returned error (${response.status})` });
     }
 
     const reply = data.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
     return res.status(200).json({ reply });
 
   } catch (err) {
-    console.error('Vercel API route exception:', err);
-    return res.status(500).json({ error: 'Server error processing request.' });
+    console.error('Vercel API route exception:', err?.message || 'Unknown error');
+    return res.status(500).json({ error: 'Server error processing AI chat request.' });
   }
 }
