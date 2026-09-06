@@ -5,9 +5,9 @@
 </p>
 
 <p align="center">
-  <a href="YOUR_PORTFOLIO_URL">🌐 Portfolio</a> •
-  <a href="YOUR_LINKEDIN_URL">💼 LinkedIn</a> •
-  <a href="YOUR_RESUME_URL">📄 Resume</a>
+  <a href="https://portfolio-mu-hazel-35.vercel.app" target="_blank">🌐 Live Portfolio</a> •
+  <a href="https://www.linkedin.com/in/shrishail-mallappa-hebballi-b33b19375" target="_blank">💼 LinkedIn</a> •
+  <a href="https://portfolio-mu-hazel-35.vercel.app/Shrishail_Hebballi_Resume.pdf" target="_blank">📄 Resume PDF</a>
 </p>
 
 ---
