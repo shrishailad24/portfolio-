@@ -11,6 +11,7 @@ export default function AskShrishailAI() {
   const [errorMsg, setErrorMsg] = useState(null);
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
+  const isSendingRef = useRef(false);
 
   const sampleQuestions = [
     "Tell me about AegisCR & its land OCR pipeline",
@@ -32,8 +33,9 @@ export default function AskShrishailAI() {
 
   const handleSend = async (textToSend) => {
     const query = (textToSend || input).trim();
-    if (!query || isLoading) return;
+    if (!query || isLoading || isSendingRef.current) return;
 
+    isSendingRef.current = true;
     setErrorMsg(null);
     const userMsg = { sender: 'user', text: query };
     const updatedMessages = [...messages, userMsg];
@@ -54,6 +56,9 @@ export default function AskShrishailAI() {
       const data = await response.json();
 
       if (!response.ok) {
+        if (response.status === 429 || data.isRateLimit) {
+          throw new Error(data.error || 'High traffic: Shrishail AI is busy. Please wait a moment and try again.');
+        }
         throw new Error(data.error || `HTTP error ${response.status}`);
       }
 
@@ -63,6 +68,7 @@ export default function AskShrishailAI() {
       setErrorMsg(err.message || 'Network error connecting to Shrishail AI service.');
     } finally {
       setIsLoading(false);
+      isSendingRef.current = false;
     }
   };
 

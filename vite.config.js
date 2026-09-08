@@ -82,8 +82,8 @@ export default defineConfig(({ mode }) => {
             req.on('end', async () => {
               try {
                 const { messages } = JSON.parse(body || '{}');
-                const apiKey = env.GROQ_API_KEY || process.env.GROQ_API_KEY;
-                const model = env.GROQ_MODEL || process.env.GROQ_MODEL || 'groq/compound';
+                const rawKey = env.GROQ_API_KEY || process.env.GROQ_API_KEY || env.GROQ_KEY || process.env.GROQ_KEY;
+                const apiKey = rawKey ? rawKey.trim().replace(/^["']|["']$/g, '') : null;
 
                 if (!apiKey) {
                   res.statusCode = 500;
@@ -92,70 +92,97 @@ export default defineConfig(({ mode }) => {
                   return;
                 }
 
-                // Format messages array for Groq OpenAI-compatible API
+                const recentMessages = Array.isArray(messages) ? messages.slice(-6) : [];
                 const formattedMessages = [
                   { role: 'system', content: systemPrompt },
-                  ...(Array.isArray(messages) ? messages.map(m => ({
+                  ...recentMessages.map(m => ({
                     role: m.sender === 'user' ? 'user' : 'assistant',
                     content: m.text
-                  })) : [])
+                  }))
                 ];
 
-                const groqPayload = JSON.stringify({
-                  model: model,
-                  messages: formattedMessages,
-                  temperature: 0.5,
-                  max_tokens: 1024
-                });
+                const primaryModel = (env.GROQ_MODEL || process.env.GROQ_MODEL || 'qwen/qwen3.8-27b').trim().replace(/^["']|["']$/g, '');
+                const candidateModels = Array.from(new Set([
+                  primaryModel,
+                  'qwen/qwen3.8-27b',
+                  'groq/compound',
+                  'allam-2-7b',
+                  'openai/gpt-oss-20b'
+                ]));
 
-                const options = {
-                  hostname: 'api.groq.com',
-                  path: '/openai/v1/chat/completions',
-                  method: 'POST',
-                  headers: {
-                    'Authorization': `Bearer ${apiKey}`,
-                    'Content-Type': 'application/json',
-                    'Content-Length': Buffer.byteLength(groqPayload)
-                  }
-                };
+                let lastStatus = 500;
+                let lastErrorMessage = '';
+                let responseData = null;
 
-                const groqReq = https.request(options, (groqRes) => {
-                  let resData = '';
-                  groqRes.on('data', chunk => { resData += chunk; });
-                  groqRes.on('end', () => {
-                    if (groqRes.statusCode >= 200 && groqRes.statusCode < 300) {
-                      try {
-                        const parsed = JSON.parse(resData);
-                        const reply = parsed.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
-                        res.statusCode = 200;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.end(JSON.stringify({ reply }));
-                      } catch (e) {
-                        res.statusCode = 500;
-                        res.setHeader('Content-Type', 'application/json');
-                        res.end(JSON.stringify({ error: 'Invalid response format from AI provider.' }));
+                for (const modelCandidate of candidateModels) {
+                  for (let attempt = 0; attempt < 2; attempt++) {
+                    try {
+                      const groqPayload = JSON.stringify({
+                        model: modelCandidate,
+                        messages: formattedMessages,
+                        temperature: 0.5,
+                        max_tokens: 768
+                      });
+
+                      const fetchRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                          'Authorization': `Bearer ${apiKey}`,
+                          'Content-Type': 'application/json'
+                        },
+                        body: groqPayload
+                      });
+
+                      lastStatus = fetchRes.status;
+                      const data = await fetchRes.json().catch(() => ({}));
+
+                      if (fetchRes.ok && data.choices?.[0]?.message?.content) {
+                        responseData = data;
+                        break;
                       }
-                    } else {
-                      console.error('Groq API Error Response:', resData);
-                      res.statusCode = groqRes.statusCode || 500;
-                      res.setHeader('Content-Type', 'application/json');
-                      res.end(JSON.stringify({ error: `Groq API Error: ${groqRes.statusCode}` }));
+
+                      if (fetchRes.status === 429) {
+                        lastErrorMessage = data.error?.message || 'Rate limit reached on Groq';
+                        if (attempt === 0) {
+                          await new Promise(r => setTimeout(r, 750));
+                          continue;
+                        }
+                        break;
+                      }
+
+                      lastErrorMessage = data.error?.message || `Groq error (${fetchRes.status})`;
+                      break;
+                    } catch (err) {
+                      lastErrorMessage = err?.message || 'Network error';
+                      break;
                     }
-                  });
-                });
+                  }
+                  if (responseData) break;
+                }
 
-                groqReq.on('error', (err) => {
-                  console.error('Groq HTTPS Request Error:', err);
-                  res.statusCode = 500;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.end(JSON.stringify({ error: 'Network error connecting to Groq AI service.' }));
-                });
+                res.setHeader('Content-Type', 'application/json');
 
-                groqReq.write(groqPayload);
-                groqReq.end();
+                if (responseData) {
+                  const reply = responseData.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
+                  res.statusCode = 200;
+                  res.end(JSON.stringify({ reply }));
+                  return;
+                }
+
+                if (lastStatus === 429) {
+                  res.statusCode = 429;
+                  res.end(JSON.stringify({
+                    error: 'Shrishail AI is currently handling high visitor volume. Please wait a moment and click Retry.',
+                    isRateLimit: true,
+                    retryAfter: 5
+                  }));
+                  return;
+                }
+
+                res.statusCode = lastStatus || 500;
+                res.end(JSON.stringify({ error: lastErrorMessage || 'AI service error.' }));
 
               } catch (err) {
-                console.error('Request parsing error:', err);
                 res.statusCode = 400;
                 res.setHeader('Content-Type', 'application/json');
                 res.end(JSON.stringify({ error: 'Invalid JSON request payload.' }));

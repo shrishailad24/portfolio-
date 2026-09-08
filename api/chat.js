@@ -98,7 +98,6 @@ export default async function handler(req, res) {
   try {
     const rawKey = process.env.GROQ_API_KEY || process.env.GROQ_KEY || process.env.GROQ_API_TOKEN;
     const apiKey = rawKey ? rawKey.trim().replace(/^["']|["']$/g, '') : null;
-    const model = (process.env.GROQ_MODEL || 'groq/compound').trim().replace(/^["']|["']$/g, '');
 
     if (!apiKey) {
       return res.status(500).json({ error: 'GROQ_API_KEY environment variable is not configured on Vercel.' });
@@ -107,39 +106,96 @@ export default async function handler(req, res) {
     const body = await parseBody(req);
     const { messages } = body || {};
 
+    // Sliding window: keep the last 6 messages to preserve context while drastically reducing token usage
+    const recentMessages = Array.isArray(messages) ? messages.slice(-6) : [];
+
     const formattedMessages = [
       { role: 'system', content: systemPrompt },
-      ...(Array.isArray(messages) ? messages.map(m => ({
+      ...recentMessages.map(m => ({
         role: m.sender === 'user' ? 'user' : 'assistant',
         content: m.text
-      })) : [])
+      }))
     ];
 
-    const groqPayload = JSON.stringify({
-      model: model,
-      messages: formattedMessages,
-      temperature: 0.5,
-      max_tokens: 1024
-    });
+    // Priority model configuration with resilient fallback chain
+    const primaryModel = process.env.GROQ_MODEL?.trim().replace(/^["']|["']$/g, '') || 'qwen/qwen3.8-27b';
+    const candidateModels = Array.from(new Set([
+      primaryModel,
+      'qwen/qwen3.8-27b',
+      'groq/compound',
+      'allam-2-7b',
+      'openai/gpt-oss-20b'
+    ]));
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: groqPayload
-    });
+    let lastStatus = 500;
+    let lastErrorMessage = '';
+    let responseData = null;
 
-    const data = await response.json();
+    for (const modelCandidate of candidateModels) {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const groqPayload = JSON.stringify({
+            model: modelCandidate,
+            messages: formattedMessages,
+            temperature: 0.5,
+            max_tokens: 768
+          });
 
-    if (!response.ok) {
-      console.error('Groq API Error on Vercel status:', response.status);
-      return res.status(response.status).json({ error: data.error?.message || `Groq API returned error (${response.status})` });
+          const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${apiKey}`,
+              'Content-Type': 'application/json'
+            },
+            body: groqPayload
+          });
+
+          lastStatus = response.status;
+          const data = await response.json().catch(() => ({}));
+
+          if (response.ok && data.choices?.[0]?.message?.content) {
+            responseData = data;
+            break;
+          }
+
+          if (response.status === 429) {
+            lastErrorMessage = data.error?.message || 'Rate limit reached on Groq';
+            console.warn(`Groq 429 on model ${modelCandidate}, attempt ${attempt + 1}`);
+            if (attempt === 0) {
+              // Wait 750ms before retry
+              await new Promise(resolve => setTimeout(resolve, 750));
+              continue;
+            }
+            break; // Move to next fallback model
+          }
+
+          lastErrorMessage = data.error?.message || `Groq API returned status ${response.status}`;
+          break; // For other errors, move to next model
+        } catch (fetchErr) {
+          lastErrorMessage = fetchErr?.message || 'Network fetch error';
+          break;
+        }
+      }
+
+      if (responseData) break;
     }
 
-    const reply = data.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
-    return res.status(200).json({ reply });
+    if (responseData) {
+      const reply = responseData.choices?.[0]?.message?.content || "I'm sorry, I couldn't generate a response.";
+      return res.status(200).json({ reply });
+    }
+
+    if (lastStatus === 429) {
+      return res.status(429).json({
+        error: 'Shrishail AI is currently handling high visitor volume. Please wait a few moments and click Retry.',
+        isRateLimit: true,
+        retryAfter: 5
+      });
+    }
+
+    return res.status(lastStatus || 500).json({
+      error: lastErrorMessage || 'Server error processing AI chat request.'
+    });
 
   } catch (err) {
     console.error('Vercel API route exception:', err?.message || 'Unknown error');
