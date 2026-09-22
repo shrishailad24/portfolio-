@@ -6,6 +6,10 @@ export default function TiltCard({ children, className = "", style = {} }) {
   const [glarePos, setGlarePos] = useState({ x: 50, y: 50, opacity: 0 });
 
   const handleMouseMove = (e) => {
+    // Only apply 3D tilt on devices with a mouse/hover to prevent mobile touch-scroll interference
+    if (typeof window !== 'undefined' && window.matchMedia && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      return;
+    }
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const width = rect.width;
@@ -17,19 +21,19 @@ export default function TiltCard({ children, className = "", style = {} }) {
     const xPct = (mouseX / width - 0.5) * 2; // -1 to 1
     const yPct = (mouseY / height - 0.5) * 2; // -1 to 1
 
-    const rotateX = -yPct * 18; // 18deg 5D tilt angle
-    const rotateY = xPct * 18;
+    const rotateX = -yPct * 10; // smooth natural tilt
+    const rotateY = xPct * 10;
 
-    setTransform(`perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) translateZ(10px) scale3d(1.03, 1.03, 1.03)`);
+    setTransform(`perspective(1200px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.015, 1.015, 1.015)`);
     setGlarePos({
       x: (mouseX / width) * 100,
       y: (mouseY / height) * 100,
-      opacity: 0.35
+      opacity: 0.25
     });
   };
 
   const handleMouseLeave = () => {
-    setTransform("perspective(1200px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale3d(1, 1, 1)");
+    setTransform("perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
     setGlarePos((prev) => ({ ...prev, opacity: 0 }));
   };
 
@@ -40,20 +44,18 @@ export default function TiltCard({ children, className = "", style = {} }) {
       onMouseLeave={handleMouseLeave}
       style={{
         transform,
-        transition: "transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease-out",
-        transformStyle: "preserve-3d",
+        transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease-out",
         position: "relative",
         borderRadius: "16px",
         ...style
       }}
-      className={`tilt-card-container 5d-depth-card ${className}`}
+      className={`tilt-card-container ${className}`}
     >
-      {/* Hyper 3D Multi-Layer Inner Container */}
-      <div style={{ transform: "translateZ(35px)", transformStyle: "preserve-3d", width: "100%", height: "100%" }}>
+      <div style={{ width: "100%", height: "100%" }}>
         {children}
       </div>
 
-      {/* Holographic 5D Iridescent Specular Glare Overlay (Compact Micro Spotlight) */}
+      {/* Holographic Specular Glare Overlay (Desktop only) */}
       <div
         className="tilt-glare"
         style={{
@@ -62,7 +64,7 @@ export default function TiltCard({ children, className = "", style = {} }) {
           borderRadius: "16px",
           pointerEvents: "none",
           zIndex: 10,
-          background: `radial-gradient(circle 120px at ${glarePos.x}% ${glarePos.y}%, rgba(255, 255, 255, ${(glarePos.opacity * 0.5).toFixed(2)}) 0%, rgba(58, 120, 255, 0.08) 30%, transparent 60%)`,
+          background: `radial-gradient(circle 120px at ${glarePos.x}% ${glarePos.y}%, rgba(255, 255, 255, ${(glarePos.opacity * 0.4).toFixed(2)}) 0%, rgba(58, 120, 255, 0.05) 30%, transparent 60%)`,
           transition: "opacity 0.25s"
         }}
       />

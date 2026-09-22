@@ -70,18 +70,14 @@ export function HeroSection({ onOpenCaseStudy }) {
               {/* Luminous Light Geoid Earth-Moon Orbital System SVG */}
               <svg className="geoid-orbit-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                 {/* Light Geoid Elliptical Orbit Rings */}
-                <ellipse cx="250" cy="250" rx="215" ry="145" transform="rotate(-25 250 250)" stroke="url(#blueOrbitGrad)" strokeWidth="1.8" strokeDasharray="8 5" opacity="0.9" />
-                <ellipse cx="250" cy="250" rx="235" ry="165" transform="rotate(32 250 250)" stroke="url(#orangeOrbitGrad)" strokeWidth="1.8" opacity="0.9" />
-                <circle cx="250" cy="250" r="225" stroke="rgba(58, 120, 255, 0.45)" strokeWidth="1.2" strokeDasharray="4 6" />
+                <ellipse cx="250" cy="250" rx="215" ry="145" transform="rotate(-25 250 250)" stroke="url(#blueOrbitGrad)" strokeWidth="1.2" strokeDasharray="6 6" opacity="0.35" />
+                <ellipse cx="250" cy="250" rx="235" ry="165" transform="rotate(32 250 250)" stroke="url(#orangeOrbitGrad)" strokeWidth="1.2" strokeDasharray="6 6" opacity="0.3" />
+                <circle cx="250" cy="250" r="225" stroke="rgba(58, 120, 255, 0.2)" strokeWidth="1" strokeDasharray="3 6" />
 
                 {/* Orbiting Celestial Moon & Satellite Nodes */}
-                <circle cx="65" cy="205" r="6" fill="#00F0FF" />
-                <circle cx="65" cy="205" r="10" fill="rgba(0, 240, 255, 0.3)" />
-
-                <circle cx="435" cy="285" r="6" fill="#FF5533" />
-                <circle cx="435" cy="285" r="10" fill="rgba(255, 85, 51, 0.3)" />
-
-                <circle cx="345" cy="85" r="4.5" fill="#38BDF8" />
+                <circle cx="65" cy="205" r="3.5" fill="#00F0FF" opacity="0.6" />
+                <circle cx="435" cy="285" r="3.5" fill="#FF5533" opacity="0.6" />
+                <circle cx="345" cy="85" r="2.5" fill="#38BDF8" opacity="0.5" />
 
                 {/* SVG Gradient Definitions */}
                 <defs>

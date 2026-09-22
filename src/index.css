@@ -1907,6 +1907,13 @@ section {
   gap: 1.5rem;
 }
 
+@media (max-width: 900px) {
+  .labs-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
 .lab-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -3523,6 +3530,7 @@ section {
   .min-grid-2col, 
   .skills-grid, 
   .projects-grid, 
+  .labs-grid,
   .min-fraud-grid, 
   .min-products-grid, 
   .min-roles-grid, 
@@ -3556,8 +3564,9 @@ section {
   }
 
   /* Secondary & Shrishail Labs Cards */
-  .min-info-card, .skill-category-card, .challenge-card {
+  .min-info-card, .skill-category-card, .challenge-card, .lab-card {
     padding: 1.25rem !important;
+    width: 100% !important;
   }
 
   /* Contact Chips Stack */

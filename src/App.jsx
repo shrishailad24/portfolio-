@@ -76,6 +76,7 @@ export default function App() {
             <li><a href="#about" className="nav-link">About</a></li>
             <li><a href="#featured-work" className="nav-link">Projects</a></li>
             <li><a href="#experience" className="nav-link">Experience</a></li>
+            <li><a href="#labs" className="nav-link">Experiments</a></li>
             <li><a href="#skills" className="nav-link">Skills</a></li>
             <li><a href="#contact" className="nav-link">Contact</a></li>
             
@@ -120,6 +121,7 @@ export default function App() {
               <li><a href="#about" onClick={closeMobileMenu}>About</a></li>
               <li><a href="#featured-work" onClick={closeMobileMenu}>Projects</a></li>
               <li><a href="#experience" onClick={closeMobileMenu}>Experience</a></li>
+              <li><a href="#labs" onClick={closeMobileMenu}>Experiments</a></li>
               <li><a href="#skills" onClick={closeMobileMenu}>Skills</a></li>
               <li><a href="#contact" onClick={closeMobileMenu}>Contact</a></li>
               <li>
@@ -364,13 +366,11 @@ export default function App() {
       </section>
 
       {/* 08. SHRISHAIL LABS EXPERIMENTS */}
-      {!recruiterMode && (
-        <section id="labs" style={{ marginTop: '2.5rem' }}>
-          <div className="container">
-            <ShrishailLabs />
-          </div>
-        </section>
-      )}
+      <section id="labs" style={{ marginTop: '2.5rem' }}>
+        <div className="container">
+          <ShrishailLabs />
+        </div>
+      </section>
 
       {/* 09. TECHNICAL CAPABILITIES (GROUPED RECRUITER MATRIX) */}
       <section id="skills" style={{ marginTop: '2.5rem' }}>
